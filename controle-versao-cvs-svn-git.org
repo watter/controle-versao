@@ -1,0 +1,1869 @@
+:CAB:
+#+LaTeX_CLASS: beamer
+#+TITLE: Controle de Versão pra Quê?
+#+AUTHOR: Leslie Harlley Watter
+#+EMAIL:  watter@gmail.com
+
+#+STARTUP: beamer
+#+STARTUP: showeverything
+
+
+#+LaTeX_CLASS_OPTIONS: [presentation]
+# #+LaTeX_CLASS_OPTIONS: [handout, presentation] % handout para remover os overlays para impressão
+#+BEAMER_FRAME_LEVEL: 2
+#+BEAMER_HEADER_EXTRA: \usetheme{Madrid}
+# #+BEAMER_HEADER_EXTRA: \usecolortheme{default}
+
+# #+BEAMER_HEADER_EXTRA: \usecolortheme{shark}
+# #+BEAMER_HEADER_EXTRA: \useinnertheme[realshadow,corners=2pt,padding=2pt]{chamfered}
+# #+BEAMER_HEADER_EXTRA: \useoutertheme{wuerzburg}
+
+# #+BEAMER_HEADER_EXTRA: \usepackage{inconsolata} 
+# #+BEAMER_HEADER_EXTRA: \mode<beamer|trans>{ \useoutertheme[glossy]{wuerzburg} \useinnertheme[shadow,outline]{chamfered} \usecolortheme{shark} }
+# #+BEAMER_HEADER_EXTRA: \setbeamertemplate{navigation symbols}{}
+# #+BEAMER_HEADER_EXTRA: \setbeamertemplate{frametitle continuation}[from second][(cont'd)]
+# #+BEAMER_HEADER_EXTRA: \usefonttheme[stillsansseriftext,stillsansserifsmall]{serif}
+
+#+BEAMER_HEADER_EXTRA: \usepackage[brazil]{babel}  % data em portugues
+#+BEAMER_HEADER_EXTRA: \usepackage{fancyvrb}  % para Verbatim
+#+BEAMER_HEADER_EXTRA: \usepackage{Verbatim} 
+#+BEAMER_HEADER_EXTRA: \usepackage{color} 
+#+BEAMER_HEADER_EXTRA: \usepackage{multimedia} 
+#+BEAMER_HEADER_EXTRA: \usepackage{gensymb}  % para o \degree
+#+BEAMER_HEADER_EXTRA: \usepackage{hyperref}  % para o o href{./arquivo} link para arquivos
+
+#+BEAMER_HEADER_EXTRA: \setbeamertemplate{caption}[numbered]  % coloca números nas figuras
+#+BEAMER_HEADER_EXTRA: \beamertemplatenavigationsymbolsempty  % remove a barrinha embaixo do slide
+#+BEAMER_HEADER_EXTRA: \setbeamercovered{dynamic} % mostra o que está por vir nos overlays
+
+# para mostrar o slide de notas na lateral
+# tem que usar o \note para mostrar as notas 
+
+#+BEAMER_HEADER_EXTRA: \usepackage{pgfpages}
+# #+BEAMER_HEADER_EXTRA: \setbeameroption{show notes}
+# #+BEAMER_HEADER_EXTRA: \setbeameroption{show notes on second screen=right}
+
+
+# definindo as cores de cada parte do slides 
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{alerted text}{fg=orange}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{background canvas}{bg=white}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{block body alerted}{bg=normal text.bg!90!black}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{block body}{bg=normal text.bg!90!black}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{block body example}{bg=normal text.bg!90!black}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{block title alerted}{use={normal text,alerted text},fg=alerted text.fg!75!normal text.fg,bg=normal text.bg!75!black}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{block title}{bg=blue}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{block title example}{use={normal text,example text},fg=example text.fg!75!normal text.fg,bg=normal text.bg!75!black}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{fine separation line}{}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{frametitle}{fg=brown}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{item projected}{fg=black}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{normal text}{bg=black,fg=yellow}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{palette sidebar primary}{use=normal text,fg=normal text.fg}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{palette sidebar quaternary}{use=structure,fg=structure.fg}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{palette sidebar secondary}{use=structure,fg=structure.fg}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{palette sidebar tertiary}{use=normal text,fg=normal text.fg}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{section in sidebar}{fg=brown}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{section in sidebar shaded}{fg= grey}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{separation line}{}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{sidebar}{bg=red}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{sidebar}{parent=palette primary}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{structure}{bg=black, fg=green}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{subsection in sidebar}{fg=brown}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{subsection in sidebar shaded}{fg= grey}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{title}{fg=brown}
+# #+BEAMER_HEADER_EXTRA: \setbeamercolor{titlelike}{fg=brown}
+
+# # \note<1-2>[item]{Say something to the audience!}
+# # \note[enumerate]{\item foo \item bar \item baz \item foobar}
+
+# # Acrescenta Outline a cada seção
+#+LATEX_HEADER: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
+
+#+COLUMNS: %35ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
+
+
+# C-c C-b ativa o modo de colunas
+
+#+DATE: \today{}
+#+DESCRIPTION: Controle de Versão
+#+KEYWORDS:  SCM, CVS, SVN, GIT, DARCS
+#+LANGUAGE:  pt_BR
+#+OPTIONS:   H:2 num:t toc:f \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t tags:nil
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+TAGS: export(e) noexport(n) 
+#+LINK_UP:   
+#+LINK_HOME: 
+
+# definições de cores para o LaTeX
+#+LaTeX: \definecolor{preto}{rgb}{0.000,0.000,0.000}          %% preto
+#+LaTeX: \definecolor{azul}{rgb}{0.000,0.000,1.000}           %% azul
+#+LaTeX: \definecolor{cyano}{rgb}{0.000,1.000,1.000}          %% cyano
+#+LaTeX: \definecolor{verdelimao}{rgb}{0.000,1.000,0.000}     %% verde limao
+#+LaTeX: \definecolor{pink}{rgb}{1.000,0.000,1.000}           %% pink
+#+LaTeX: \definecolor{vermelho}{rgb}{1.000,0.000,0.000}       %% vermelho
+#+LaTeX: \definecolor{amarelo}{rgb}{1.000,1.000,0.000}        %% amarelo
+#+LaTeX: \definecolor{branco}{rgb}{1.000,1.000,1.000}         %% branco
+#+LaTeX: \definecolor{azulmarinho}{rgb}{0.000,0.000,0.502}    %% azul marinho
+#+LaTeX: \definecolor{verdeclaro}{rgb}{0.000,0.502,0.502}     %% verde claro
+#+LaTeX: \definecolor{verdeoliva}{rgb}{0.000,0.502,0.000}     %% verde oliva
+#+LaTeX: \definecolor{lilasescuro}{rgb}{0.502,0.000,0.502}    %% lilas escuro
+#+LaTeX: \definecolor{marrom}{rgb}{0.502,0.000,0.000}         %% marrom
+#+LaTeX: \definecolor{cinza}{rgb}{0.502,0.502,0.502}          %% cinza
+#+LaTeX: \definecolor{cinzaclaro}{rgb}{0.753,0.753,0.753}     %% cinza bem claro
+#+LaTeX: \definecolor{azulclaro}{rgb}{0.002,0.500,0.840}      %% azulclaro
+#+LaTeX: \definecolor{cyanoclaro}{rgb}{0.000,1.000,1.000}     %% cyanoclaro
+
+#+LaTeX: \newcommand{\tc}[2]{\textcolor{#1}{#2}} % muda textcolor pra tc
+#+LaTeX: \newcommand{\img}[3]{\begin{figure}[H]  \begin{center} \includegraphics[width=#1]{#2} \caption{#3} \end{center} \end{figure} }
+
+:END:
+
+
+* Introdução 
+
+** Necessidade
+
+Você já passou pela situação em que disse: 
+ 1) "Cadê a última versão desse arquivo?"
+ 2) "Eu tenho certeza de que já tinha escrito isso no documento ..."
+ 3) "Quando foi que foi retirada aquela cláusula do contrato?"
+
+Se disse sim para alguma das perguntas anteriores, você provavelmente precisa de
+um controle de versão ;-)
+
+** Controle de Versão, o que é ?
+
+Um sistema de controle de versão (ou versionamento), VCS (do inglês version
+control system) ou ainda SCM (do inglês source code management) na função
+prática da Ciência da Computação e da Engenharia de Software, é um software com
+a finalidade de gerenciar diferentes versões no desenvolvimento de um documento
+qualquer. 
+
+#+LaTeX: \\[0.5cm]
+
+Esses sistemas são comumente utilizados no desenvolvimento de software
+para controlar as diferentes versões — histórico e desenvolvimento — dos
+códigos-fontes e também da documentação. 
+
+#+LaTeX: \\[0.5cm]
+
+Fonte: Wikipedia - http://tinyurl.com/278k3vj
+
+** Onde usar controle de versão? 
+
+ + Desenvolvimento de Código
+ + Manutenção de Configurações
+ + Praticamente qualquer coisa em que se precise controlar as modificações
+   executadas
+ + Atividades que exigem colaboração entre diferentes indivíduos.
+
+
+** Por que usar um controle de versão? 
+# http://www.git-tower.com/learn/ebook/command-line/basics/why-use-version-control#start
+
+ * Colaboração
+ * Armazenamento de Versões Apropriado
+ * Restaurar Versões Anteriores
+ * Compreender O Que Aconteceu
+ * Backup
+
+
+** Basicamente porquê...
+
+#+CAPTION: 
+#+LABEL: 
+#+ATTR_LaTeX: :width 7cm  :placement [h!]
+[[./images/shit-happens2.jpg]]
+
+
+
+
+* Versionamento Manual
+
+
+
+** Jogo dos 7 erros										   :noexport:B_block:
+	:PROPERTIES:
+	:BEAMER_env: block
+	:END:
+
+# http://www.blogdajulieta.com.br/wp-content/uploads/2011/03/1234561.jpg
+
+#+LABEL:      fig:jogo7erroschico
+#+ATTR_LaTeX:  :width 7cm  :placement [h!]
+[[./images/jogo-7-erros-chico.jpg]]
+
+
+ 7 erros pequenos são mais fáceis de serem corrigidos que 7 erros grandes, embora
+ seja muito mais difícil de encontrá-los no meio de muita informação.
+
+
+** Controle Manual 
+
+ * O que normalmente fazemos?
+
+   * Arquivos de backup com data e hora
+
+   * acrescentamos um número ou nome ao final do arquivo...
+
+     * <2-> contrato.txt  (nome original)
+     * <3-> contrato-v1.txt                
+     * <3-> contrato-v2.txt                
+     * <4-> contrato-final-leslie.txt             
+     * <4-> contrato-final-marcos.txt            
+     * <5-> contrato-final-revisado.txt    
+     * <6->  contrato-final-mesmo.txt       
+
+ * <7-> e como saber exatamente o que mudou de uma versão para outra ?
+
+** E como descobrir as diferenças entre esses arquivos?
+
+ * _Comparando Visualmente_ lado a lado arquivo por arquivo
+   * <2-> pode levar uma "eternidade" e é muito sujeito a erros
+ * <3-> Marcando em _diferentes cores_ as modificações (dentro do *office)
+   * <4-> vai chegar uma hora em que o texto inteiro estará em amarelo,
+     vermelho, verde, e irão faltar cores, dependendo do número de pessoas editando.
+
+
+ * <5-> Acaba virando um ...
+
+
+** Jogo dos 7 erros													:B_block:
+	:PROPERTIES:
+	:BEAMER_env: block
+	:END:
+
+# http://www.blogdajulieta.com.br/wp-content/uploads/2011/03/1234561.jpg
+
+ 7 erros pequenos são mais fáceis de serem corrigidos que 7 erros grandes, embora
+ seja muito mais difícil de encontrá-los no meio de muita informação.
+
+#+LABEL:      fig:jogo7erros
+#+ATTR_LaTeX:  :width 5cm  :placement [h!]
+[[./images/jogo-7-erros.jpg]]
+
+ * <2-> A solução está em usar uma ferramenta para facilitar esse trabalho!
+
+
+** diff
+
+ * O diff é uma ferramenta que faz a comparação de dois arquivos e exibe as
+   diferenças entre esses arquivos.
+
+ * Possui inúmeros formatos e opções ...
+
+** Aplicação do Diff
+#+LaTeX: \small
+
+*** Arquivo Original										  :B_block:BMCOL:
+	:PROPERTIES:
+	:BEAMER_col: 0.5
+	:BEAMER_env: block
+	:END:
+
+#+BEGIN_EXAMPLE
+lista de compras
+maçã
+banana
+melão
+#+END_EXAMPLE
+
+*** Arquivo Modificado										  :B_block:BMCOL:
+	:PROPERTIES:
+	:BEAMER_col: 0.5
+	:BEAMER_env: block
+	:END:
+#+BEGIN_EXAMPLE
+lista de compras
+maçã fuji
+banana
+melancia
+#+END_EXAMPLE
+
+*** Diferenças
+/tmp$ diff -u orig.txt modificado.txt 
+#+BEGIN_EXAMPLE
+--- orig.txt    2014-09-18 14:39:46.208575472 -0300
++++ modificado.txt      2014-09-18 14:40:29.779574747 -0300
+@@ -1,4 +1,4 @@
+ lista de compras
+-maçã
++maçã fuji
+ banana
+-melão
++melancia
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Diff 
+
+#+CAPTION:    Exemplo de Diff usando o Git
+#+LABEL:      fig:diff-git
+#+ATTR_LaTeX: :width 12cm  :placement [h!]
+[[./images/diff-socket.png]]
+
+** patch
+
+ * O patch é uma ferramenta que aplica as diferenças (patch) entre dois arquivos
+   no arquivo original, de forma a obter-se o arquivo modificado. Confuso não ?
+
+*** ... 															:B_block:
+	:PROPERTIES:
+	:BEAMER_env: block
+    :BEAMER_envargs: <2->
+	:END:
+# http://caiomotta.com.br/blog/wp-content/uploads/2014/01/confuso.png
+
+#+LABEL:      fig:confuso
+#+ATTR_LaTeX: :width 3cm  :placement [h!]
+[[./images/confuso.png]]
+
+ * <2-> Fica mais fácil mostrando o que ele faz ...
+
+
+** Criação do Patch
+
+#+LaTeX: \small
+*** Arquivo Original 										  :B_block:BMCOL:
+	:PROPERTIES:
+	:BEAMER_col: 0.5
+	:BEAMER_env: block
+	:END:
+
+#+BEGIN_EXAMPLE
+lista de compras
+maçã
+banana
+melão
+#+END_EXAMPLE
+
+*** Arquivo Modificado										  :B_block:BMCOL:
+	:PROPERTIES:
+	:BEAMER_col: 0.5
+	:BEAMER_env: block
+	:END:
+#+BEGIN_EXAMPLE
+lista de compras
+maçã fuji
+banana
+melancia
+#+END_EXAMPLE
+
+*** Gerando o Patch
+#+BEGIN_EXAMPLE
+$ diff -u orig.txt modificado.txt > modifica.patch
+#+END_EXAMPLE
+
+
+** Patch Gerado
+
+*** modifica.patch (exatamente a saída do diff)
+#+BEGIN_EXAMPLE
+/tmp$ cat modifica.patch 
+--- orig.txt    2014-09-18 14:39:46.208575472 -0300
++++ modificado.txt      2014-09-18 14:40:29.779574747 -0300
+@@ -1,4 +1,4 @@
+ lista de compras
+-maçã
++maçã fuji
+ banana
+-melão
++melancia
+#+END_EXAMPLE
+
+
+** Aplicação de um patch
+
+*** Aplicando o Patch
+#+BEGIN_EXAMPLE
+/tmp$ patch -p0 < modifica.patch 
+patching file orig.txt
+/tmp$
+#+END_EXAMPLE
+
+*** O Arquivo Original foi modificado pelo Patch
+#+BEGIN_EXAMPLE
+/tmp$ cat orig.txt 
+lista de compras
+maçã fuji
+banana
+melancia
+#+END_EXAMPLE
+
+
+** Então ... 
+
+ * <1-> Usar patches pode ser uma maneira de compartilhar as alterações entre
+   diferentes pessoas, porém
+ * <2-> conviver com diffs e patches pode ser *bem* complicado quando a
+   quantidade aumenta.
+ * <3-> para automatizar essa tarefa é que existem os *sistemas de controle de versão* ;-)
+
+
+
+
+* Conceitos
+
+** Conceitos
+
+   * Gerenciamento de Controle de Versões
+	 * registra as modificações em arquivos
+	 * repositório / banco de dados de mudanças
+	 * diretório de trabalho / estado corrente
+
+   * SCM Centralizado
+	 * servidor: banco de dados único
+	 * cliente: diretório de trabalho & estado
+
+   * SCM Descentralizado
+
+	 * qualquer um pode ser um servidor
+	 * repositório associado ao diretório de trabalho
+	 * histórico completo
+	 * operação desconectada
+
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Árvore de trabalho\\
+                / Working tree
+                \begin{itemize}
+                        \item diretórios
+                        \item arquivos
+                \end{itemize}
+
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-working-tree.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Conteúdo do Repositório
+                \begin{itemize}
+                        \item arquivos
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-blob.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Conteúdo do Repositório
+                \begin{itemize}
+                        \item arquivos
+                        \item commits
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-commit.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Conteúdo do Repositório
+                \begin{itemize}
+                        \item arquivos
+                        \item commits
+                        \item histórico (ancestralidade)
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-ancestry.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Grafo Acíclico Dirigido
+                \vspace{.1\textheight}
+                ``DAG''
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                 \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-dag.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Referências
+                \begin{itemize}
+                        \item tags
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-tags.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Referências
+                \begin{itemize}
+                        \item tags
+                        \item branches (ramos)
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                 \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-branches.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                HEAD
+                \begin{itemize}
+                        \item checkout atual
+                        \item aponta para um branch
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-head.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                HEAD
+                \begin{itemize}
+                        \item checkout atual
+                        \item aponta para um branch
+                        \item pode estar ``desconectado''
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-detached-head.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Componentes de um SCM
+
+#+BEGIN_LaTeX
+\begin{columns}[t]
+        \begin{column}[T]{.5\textwidth}
+                Index
+                \begin{itemize}
+                        \item ``staging area'' -- área intermediária
+                        \item o que está para ser comitado
+                \end{itemize}
+        \end{column}
+        \begin{column}[T]{.5\textwidth}
+                \vspace{.2\textheight}
+                \includegraphics[width=\linewidth]{images/repo-index.eps}
+        \end{column}
+\end{columns}
+#+END_LaTeX
+
+
+** Operações em um SCM
+
+  * Inicialização
+	* init
+	* checkout
+  * Modificações
+	* add, delete, rename
+	* commit
+  * Informações
+	* status
+	* diff
+	* log
+  * Referência
+	* tag
+	* branch
+
+
+** Estrutura
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/struct-00.eps}
+\vspace{\baselineskip}
+\begin{center}
+        mantém o histórico
+\end{center}
+\vspace{\textheight}
+#+END_LaTeX
+
+
+** Estrutura
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/struct-01.eps}
+\vspace{\baselineskip}
+\begin{center}
+        staging area -- área intermediária
+\end{center}
+\vspace{\textheight}
+#+END_LaTeX
+
+
+** Estrutura
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/struct-02.eps}
+\vspace{\baselineskip}
+\begin{center}
+        árvore de trabalho -- arquivos que você modifica
+\end{center}
+\vspace{\textheight}
+#+END_LaTeX
+
+
+** Estrutura
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/struct-03.eps}
+\vspace{\baselineskip}
+\begin{center}
+        ``staging'' -- informando a modificação
+
+        \vspace{\baselineskip}
+        \CMD{add} \\
+        \CMD{remove} \\
+        \CMD{rename}
+\end{center}
+\vspace{\textheight}
+#+END_LaTeX
+
+
+** Estrutura
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/struct-04.eps}
+\vspace{\baselineskip}
+\begin{center}
+        ``committing'' -- efetivando a modificação no repositório
+
+        \vspace{\baselineskip}
+        \CMD{commit}
+\end{center}
+\vspace{\textheight}
+#+END_LaTeX
+
+
+** Estrutura
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/struct-05.eps}
+\vspace{\baselineskip}
+\begin{center}
+        ``reading tree'' -- lendo a árvore do repositório
+
+        \vspace{\baselineskip}
+        \CMD{checkout} \\
+        \CMD{read-tree} \\
+        \CMD{reset}
+\end{center}
+\vspace{\textheight}
+#+END_LaTeX
+
+
+** Estrutura
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/struct-06.eps}
+\vspace{\baselineskip}
+\begin{center}
+        ``checking out'' -- efetivando a recuperação dos arquivos
+
+        \vspace{\baselineskip}
+        \CMD{checkout} \\
+        \CMD{checkout-index} \\
+        \CMD{reset}
+\end{center}
+\vspace{\textheight}
+#+END_LaTeX
+
+
+** Esquema Lógico do Controle de Versão
+
+#+CAPTION:    Esquema Lógico do Controle de Versão
+#+LABEL:      fig:esquema-logico-scm
+#+ATTR_LaTeX:  :width 8cm  :placement [h!] 
+[[./images/esquema-logico-controle-de-versoes.png]]
+
+Fonte: Wikipédia
+
+
+
+** SCM Centralizado
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/centralized.eps}
+\begin{itemize}
+        \item As operações \textcolor{red}{precisam} de um \textcolor{red}{servidor}
+                \begin{itemize}
+                        \item um único ponto de falha
+                        \item ponto de gargalo
+                \end{itemize}
+\end{itemize}
+#+END_LaTeX
+
+
+
+** SCM Descentralizado
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/decentralized.eps}
+\begin{itemize}
+        \item qualquer um pode ser um servidor
+        \item \textrm{operações adicionais:} clone, pull, fetch, push
+\end{itemize}
+#+END_LaTeX
+
+
+** Descentralização
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/cloning-1-upstream.eps}
+\begin{itemize}
+        \item repositório público
+\end{itemize}
+#+END_LaTeX
+
+
+** Descentralização
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/cloning-2-local.eps}
+\begin{itemize}
+        \item criando um clone local
+          \begin{itemize}
+          \item http, ssh, git
+          \item \green{git clone git://git.kernel.org/.../linux-2.6.git linux-2.6}
+          \end{itemize}
+\end{itemize}
+#+END_LaTeX
+
+
+** Descentralização
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/cloning-3-topic.eps}
+\begin{itemize}
+        \item clonar localmente é extremamente simples
+        \item \green{git clone ~/scm/linux-2.6  ~/tmp/linux-2.6-tmp}
+\end{itemize}
+#+END_LaTeX
+
+
+** Descentralização
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/cloning-4-push.eps}
+\begin{itemize}
+        \item envio (push) de modificações entre quaisquer repositórios
+        \item \green{git push origin master} (dentro do respositório)
+\end{itemize}
+#+END_LaTeX
+
+
+** Descentralização
+
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/cloning-5-publish.eps}
+\begin{itemize}
+        \item publica-se mudanças em um servidor público
+\end{itemize}
+#+END_LaTeX
+
+
+** Descentralização
+
+#+BEGIN_LaTeX
+\includegraphics[width=\linewidth]{images/cloning-6-trusted.eps}
+\begin{itemize}
+        \item compartilhar mudanças com máquinas confiáveis
+        \item \green{git clone ssh://192.168.1.2/home/git/emacs.git emacs}
+\end{itemize}
+#+END_LaTeX
+
+
+** Por quê descentralizar?
+
+#+BEGIN_LaTeX
+ \begin{itemize}
+         \item micro-commits não intrusivos
+         \item operação desconectada 
+         \item não há um único ponto de falha
+         \item backups são triviais
+ \end{itemize}
+#+END_LaTeX
+
+
+
+
+* Sistemas de Controle de Versão
+  
+
+** Sistemas de Controle de Versão
+
+*** Centralizados
+ * RCS
+ * CVS
+ * SVN
+
+*** Distribuídos
+ * GIT
+ * Mercurial
+ * Bazaar
+ * Darcs
+
+** RCS
+
+#+LaTeX: \footnotesize
+| Autor          | Walter F. Tichy                                   |
+| Desenvolvedor  | Projeto GNU                                       |
+| Plataforma     | Sistema operacional tipo Unix                     |
+| Lançamento     | 1982 (31–32 anos)                                 |
+| Versão estável | 5.9.0 (6 de maio de 2013; há 71 semanas e 4 dias) |
+| Escrito em     | C                                                 |
+| Gênero(s)      | Sistema de controle de versão                     |
+| Licença        | GNU General Public License                        |
+| Página oficial | www.gnu.org/s/rcs/                                |
+
+#+BEGIN_QUOTE
+O RCS funciona apenas em arquivos individuais. Não há maneira de trabalhar com um projeto inteiro.
+#+END_QUOTE
+
+
+Fonte: wikipédia
+#+LaTeX: \normalsize
+
+
+** RCS
+
+#+CAPTION:    RCS
+#+LABEL:      fig:rcs-logo
+#+ATTR_LaTeX:  :width 10cm  :placement [h!]
+[[./images/rcs-pagina.png]]
+
+** CVS
+#+LaTeX: \footnotesize
+| Desenvolvedores     | The CVS Team                          |
+| Lançamento          | November 19, 1990; 23 anos atrás      |
+| versão estável      | 1.11.23 / May 8, 2008; 6 anos atrás   |
+| Versão em desenv    | 1.12.13 / July 26, 2006; 8 anos atrás |
+| Escrito em          | C                                     |
+| Sistema Operacional | Unix-like, Windows                    |
+| Gênero(s)           | Revision control                      |
+| Licença             | GNU General Public License            |
+| Página oficial      | savannah.nongnu.org/projects/cvs      |
+
+#+BEGIN_QUOTE
+CVS utiliza uma arquitetura cliente-servidor: um servidor armazena a(s)
+versão(ões) atuais do projeto e seu histórico, e os clientes se conectam a esse
+servidor para obter uma cópia completa do projeto, trabalhar nessa cópia e então
+devolver suas modificações.  
+#+END_QUOTE
+
+Fonte: wikipédia
+#+LaTeX: \normalsize
+
+** CVS
+
+#+CAPTION:    Versionamento Estilo CVS
+#+LABEL:      fig:versionamento-cvs
+#+ATTR_LaTeX:  :width 10cm  :placement [h!]
+[[./images/versionamento-estilo_CVS.png]]
+
+
+** SVN
+#+LaTeX: \footnotesize
+*Apache Subversion*
+| Desenvolvedores           | Apache Software Foundation                   |
+| Primeira Versão           | 20 October 2000; 13 anos atrás               |
+| Versão estável            | 1.8.10 (Agosto 11, 2014; 38 dias atrás)      |
+| Versão em desenv          | 1.9.0-alpha2 (Abril 14, 2014; 5 meses atrás) |
+| Estado de Desenvolvimento | Active                                       |
+| Escrito em                | C                                            |
+| Sistema Operacional       | Cross-platform                               |
+| Gênero(s)                 | Revision control                             |
+| Licença                   | Apache License                               |
+| Página oficial            | subversion.apache.org                        |
+
+#+BEGIN_QUOTE
+Apache Subversion (também conhecido por svn) é um sistema de controle de versão
+desenhado especificamente para ser um substituto moderno do CVS, que se
+considera ter algumas limitações. 
+#+END_QUOTE
+
+Fonte: wikipédia
+#+LaTeX: \normalsize
+
+** SVN
+
+#+CAPTION:    Versionamento Estilo SVN
+#+LABEL:      fig:versionamento-svn
+#+ATTR_LaTeX:  :width 10cm  :placement [h!]
+[[./images/versionamento-estilo-SVN.png]]
+
+
+
+** GIT
+#+LaTeX: \footnotesize
+| Autor Original      | Linus Torvalds                                |
+| Desenvolvedores     | Junio Hamano, Linus Torvalds, e muitos outros |
+| Versão inicial      | 7 April 2005; 9 anos atrás                    |
+| Release Estável     | 2.1.0 (15 Agosto de 2014; 34 dias atrás)      |
+| Escrito em          | C, Bourne Shell, Tcl, Perl                    |
+| Sistema Operacional | Linux, POSIX, Windows, OS X                   |
+| Gênero              | Version control                               |
+| Licença             | GNU General Public License v2                 |
+| Página oficial      | git-scm.com                                   |
+
+#+BEGIN_QUOTE
+Git pronunciado  é um sistema de controle de versão distribuído e um
+sistema de gerenciamento de código fonte, com ênfase em velocidade. O Git foi
+inicialmente projetado e desenvolvido por Linus Torvalds para o desenvolvimento
+do kernel Linux, mas foi adotado por muitos outros projetos. 
+
+Cada diretório de trabalho do Git é um repositório com um histórico completo e
+habilidade total de acompanhamento das revisões, não dependente de acesso a uma
+rede ou a um servidor central. 
+#+END_QUOTE
+
+Fonte: wikipédia
+#+LaTeX: \normalsize
+
+** GIT
+
+#+CAPTION:    Commit no  GIT
+#+LABEL:      fig:versionamento-git
+#+ATTR_LaTeX:  :width 8cm  :placement [h!]
+[[./images/commit-git.png]]
+
+
+** GIT															   :noexport:
+
+#+CAPTION:    Git
+#+LABEL:      fig:git-logo
+#+ATTR_LaTeX:  :width 8cm  :placement [h!]
+[[./images/git-logo.jpg]]
+
+
+** Outras Opções Distribuídas
+
+*** Mercurial - http://mercurial.selenic.com/						  :BMCOL:
+	:PROPERTIES:
+	:BEAMER_col: 0.5
+	:END:
+
+#+CAPTION: http://mercurial.selenic.com/
+#+LABEL:      fig:mercurial-logo
+#+ATTR_LaTeX:  :width 2cm  :placement [h!]
+[[./images/mercurial-logo.jpg]]
+
+*** Bazaar - http://bazaar.canonical.com/en/						  :BMCOL:
+	:PROPERTIES:
+	:BEAMER_col: 0.5
+	:END:
+
+#+CAPTION: http://bazaar.canonical.com/
+#+LABEL:      fig:bazar-logo
+#+ATTR_LaTeX:  :width 2cm  :placement [h!]
+[[./images/bazaar-logo.png]]
+
+
+*** ... 
+
+#+CAPTION: http://darcs.net/
+#+LABEL:      fig:darcs-logo
+#+ATTR_LaTeX:  :width 4cm  :placement [h!]
+[[./images/darcs-logo.png]]
+
+ * e a lista continua ...
+
+* GIT
+
+** GIT / Commits
+#+CAPTION:    Commits e seus pais no GIT
+#+LABEL:      fig:versionamento-commits-git
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/commits-e-pais.png]]
+
+** GIT - Estrutura de Commit
+#+CAPTION:    Estrutura de um Commit
+#+LABEL:      fig:versionamento-commits-git
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/commit-estrutura.png]]
+
+
+** GIT - Estrutura de Branches
+#+CAPTION:    Estrutura de um Branch
+#+LABEL:      fig:versionamento-commits-git
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/git-branches.png]]
+
+** Git 
+
+ * começando simples ...
+
+
+** Começando com um repositório
+
+#+LaTeX: \footnotesize
+ * clone
+#+BEGIN_EXAMPLE
+~/git$ git clone https://github.com/watter/moneylog-el.git
+Cloning into 'moneylog-el'...
+remote: Counting objects: 7, done.
+remote: Total 7 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (7/7), done.
+Checking connectivity... done.
+~/git$ ls
+moneylog-el/
+~/git$ 
+#+END_EXAMPLE
+
+ * init
+#+BEGIN_EXAMPLE
+~$ mkdir git-exemplo
+~$ cd !$
+cd git-exemplo
+~/git-exemplo$ git init
+Initialized empty Git repository in /home/leslie/git-exemplo/.git/
+~/git-exemplo$ 
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Fazendo alterações
+
+#+LaTeX: \footnotesize
+ * add
+#+BEGIN_EXAMPLE
+~/git-exemplo$ cat lista-compras.txt 
+lista de compras
+banana
+laranja
+
+~/git-exemplo$ git add lista-compras.txt 
+~/git-exemplo$ 
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Verificando o estado atual
+
+#+LaTeX: \footnotesize
+ * status
+#+BEGIN_EXAMPLE
+~/git-exemplo$ git status
+No ramo master
+
+Submissão inicial.
+
+Mudanças a serem submetidas:
+  (utilize "git rm --cached <arquivo>..." para não apresentar)
+
+        new file:   lista-compras.txt
+
+~/git-exemplo$ 
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Efetivando as alterações
+
+#+LaTeX: \footnotesize
+ * commit
+#+BEGIN_EXAMPLE
+~/git-exemplo$ git commit lista-compras.txt -m 'versão inicial da lista de compras'
+[master (root-commit) 5e832d1] versão inicial da lista de compras
+ 1 file changed, 4 insertions(+)
+ create mode 100644 lista-compras.txt
+#+END_EXAMPLE
+
+ * conferindo o estado atual
+#+BEGIN_EXAMPLE
+~/git-exemplo$ git status
+No ramo master
+nada a submeter, diretório de trabalho vazio
+~/git-exemplo$ 
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Histórico
+
+#+LaTeX: \footnotesize
+ * log
+
+#+BEGIN_EXAMPLE
+~/git-exemplo$ git log
+commit 5e832d140ea6793e08cead4bfe8b10c1ce2b71c5
+Author: Leslie H. Watter <leslie@watter.net>
+Date:   Fri Sep 19 20:25:17 2014 -0300
+
+    versão inicial da lista de compras
+~/git-exemplo$ 
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Distribuição
+
+#+LaTeX: \footnotesize
+ * repositórios remotos
+#+BEGIN_EXAMPLE
+~/git/moneylog-el$ git remote -v
+origin  https://github.com/watter/moneylog-el.git (fetch)
+origin  https://github.com/watter/moneylog-el.git (push)
+~/git/moneylog-el$ 
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Recebendo as modificações 
+
+#+LaTeX: \footnotesize
+ * pull
+#+BEGIN_EXAMPLE
+~/scm/linux$ git pull
+remote: Counting objects: 874, done.
+remote: Compressing objects: 100% (575/575), done.
+remote: Total 874 (delta 476), reused 559 (delta 296)
+Receiving objects: 100% (874/874), 1.25 MiB | 194.00 KiB/s, done.
+Resolving deltas: 100% (476/476), done.
+From git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux
+   1536340..46be7b7  master     -> origin/master
+ * [new tag]         v3.17-rc5  -> v3.17-rc5
+Updating 1536340..46be7b7
+Fast-forward
+ Documentation/devicetree/bindings/input/atmel,maxtouch.txt |   4 --
+ Documentation/devicetree/bindings/sound/rockchip-i2s.txt   |   2 +-
+ Documentation/devicetree/bindings/spi/spi-rockchip.txt     |   8 +++-
+ MAINTAINERS                                                |   5 ++-
+ Makefile                                                   |   2 +-
+ arch/arm64/mm/init.c                                       |   3 +-
+ arch/ia64/include/uapi/asm/unistd.h                        |   2 +-
+ arch/ia64/pci/fixup.c                                      |  24 +-----------
+....
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+** Enviando as modificações
+
+#+LaTeX: \footnotesize
+ * push
+#+BEGIN_EXAMPLE
+~/scm/origem/destino/git$ git push origin master 
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 366 bytes | 0 bytes/s, done.
+Total 4 (delta 3), reused 0 (delta 0)
+To /home/leslie/scm/origem/destino/../git.git
+   ce1d3a9..6a7baf9  master -> master
+~/scm/origem/destino/git$ 
+#+END_EXAMPLE
+#+LaTeX: \normalsize
+
+
+** Que a força esteja com você
+
+#+LABEL:      fig:angry-birds
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/angry-birds-star-wars.jpg]]
+
+
+** Funcionalidades Legais
+
+*** rebase
+
+*** cherrypick
+
+*** bisect
+
+
+** git rebase
+
+#+CAPTION:    Antes do Rebase
+#+LABEL:      fig:rebase0
+#+ATTR_LaTeX: :width 7cm  :placement [h!]
+[[./images/git-rebase-0.png]]
+
+** git rebase 
+
+#+CAPTION:    Depois do Rebase
+#+LABEL:      fig:rebase1
+#+ATTR_LaTeX: :width 8cm  :placement [h!]
+[[./images/git-rebase-1.png]]
+ 
+
+** git cherrypick 
+# http://gerrit-training.scmforge.com/git-gerrit-workshop.html#%2845%29
+
+E se fosse necessário pegar somente as modificações feitas no commit F do branch feature1?
+
+#+CAPTION:    Cherrypick
+#+LABEL:      fig:cherrypick
+#+ATTR_LaTeX: :width 8cm  :placement [h!]
+[[./images/git-cherrypick-0.png]]
+
+
+** git cherrypick 
+# http://gerrit-training.scmforge.com/git-gerrit-workshop.html#%2845%29
+
+#+BEGIN_EXAMPLE
+git cherry-pick feature1
+#+END_EXAMPLE
+ Aplica somente as mudanças feitas por F, isto é: diff-2 
+
+#+CAPTION:    Cherrypick
+#+LABEL:      fig:cherrypick
+#+ATTR_LaTeX: :width 8cm  :placement [h!]
+[[./images/git-cherrypick-1.png]]
+
+** Descobrindo onde está um problema
+
+#+LABEL:      fig:git-tree
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/git-tree.png]]
+
+
+** git bisect
+
+ * git bisect start 
+ * git bisect bad $VERSION 
+ * git bisect good $VERSION 
+ * git bisect log
+ * git bisect replay $LOGFILE 
+ * git bisect reset - Terminei, volta pro head!
+
+
+** Interfaces 
+
+Algumas interfaces para o git:
+
+ + Visualização
+   + terminal
+   + gitk
+   + gitX
+   + gitweb
+   + cgit
+ + Manipulação
+   + magit
+   + git-gui
+   + egit
+   + tortoisegit
+
+
+** git ``tree'' (git log --graph --pretty=oneline)
+
+#+BEGIN_LaTeX
+\begin{center}
+\includegraphics[width=\linewidth]{images/git-tree.eps}
+\end{center}
+#+END_LaTeX
+
+** gitk
+
+#+BEGIN_LaTeX
+\begin{center}
+\includegraphics[width=\linewidth]{images/gitk.eps}
+\end{center}
+#+END_LaTeX
+
+** MacOS? GitX!
+
+#+CAPTION:    GitX - http://gitx.frim.nl
+#+LABEL:      fig:gitx
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/GitX-History.png]]
+
+** gitweb
+
+#+BEGIN_LaTeX
+\begin{center}
+\includegraphics[width=\linewidth]{images/gitweb.eps}
+\end{center}
+
+#+END_LaTeX
+
+** cgit 
+
+#+CAPTION:    Cgit Kernel Org
+#+LABEL:      fig:cgit
+#+ATTR_LaTeX: :width 11cm  :placement [h!]
+[[./images/cgit.png]]
+
+** Diffstat - terminal 											   :noexport:
+
+#+CAPTION:    Diffstat no terminal
+#+LABEL:      fig:diffstat-terminal
+#+ATTR_LaTeX: :width 12cm  :placement [h!]
+[[./images/diffstat-terminal.png]]
+
+** Ferramentas de Uso
+ *  Tem alguma interface pra usar?
+ * <2-> *e Linha de comando, não serve ??*
+
+** magit + emacs
+# http://ergoemacs.org/emacs/i/emacs_magit-mode_2013-06-09.png
+
+#+CAPTION: Magit mode - emacs
+#+LABEL:      fig:magit
+#+ATTR_LaTeX: :width 9cm  :placement [h!]
+[[./images/emacs-magit-mode.png]]
+
+** Diffstat - web												   :noexport:
+
+#+CAPTION:    Diffstat no cgit
+#+LABEL:      fig:diffstat-cgit
+#+ATTR_LaTeX: :width 11cm  :placement [h!]
+[[./images/diffstat-web.png]]
+
+** git-gui 
+
+#+BEGIN_LaTeX
+\begin{center}
+\includegraphics[width=\linewidth]{images/git-gui.eps}
+\end{center}
+#+END_LaTeX
+
+** Ah tá, mas eu uso o Eclipse ... 
+
+***  tem a versão para eclipse também: Egit
+
+#+CAPTION:    Egit - http://www.eclipse.org/egit/
+#+LABEL:      fig:egit
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/egit.png]]
+** E no Windows ?
+
+*** TortoiseGit 
+
+#+CAPTION:    TortoiseGit - https://code.google.com/p/tortoisegit/
+#+LABEL:      fig:tortoise-git
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/tortoise-git.png]]
+** Ainda no Windows...
+
+*** Menus do Tortoise Git integrados ao Explorer
+
+#+CAPTION:    TortoiseGit Menus
+#+LABEL:      fig:tortoise-git-menu
+#+ATTR_LaTeX: :width 8cm  :placement [h!]
+[[./images/tortoise-git-menus.png]]
+
+
+* Casos de Utilização
+
+** Manutenção de Configurações com GIT
+
+Cenário: Modificações de configuração conforme Ordens de Serviço / Solicitações
+via E-mail.
+
+Objetivo: rastreio do que foi mudado e porquê foi mudado
+
+*** Local
+
+Controle de arquivos de configuração que foram alterados.
+
+Por exemplo, usando o pacote *etckeeper* no Debian/Ubuntu.
+
+*** Distribuída 
+
+Manter uma base de controle de configurações centralizada. 
+
+Usa um repositório central e controle local com um *git* que faz push para o
+repositório remoto.
+
+** Trabalho em Conjunto = Colaboração
+
+*** Ambiente 
+
+ + Siemens - Curitiba
+ + FISL - Porto Alegre
+ 
+*** Restrições de Comunicação
+
+Em Curitiba só o e-mail funcionava/passava para fora.
+#+LaTeX: \\[0.1cm]
+Em Porto Alegre, conexão lenta.
+
+*** Exemplo da conclusão de trabalho do Mestrado 
+Alan na Siemens, eu no FISL ... e a utilização de patches por
+e-mail. Eu sincronizava a árvore e publicava no gitorious de onde o Alan
+baixava.
+
+*** Solução
+
+  * git format patch (Alan)
+  * git am (Leslie)
+
+** Desenvolvimento de Software
+
+ + Controle do histórico de modificações entre os desenvolvedores
+ + Controle de características novas a serem implementadas em branches
+
+** Exemplo: Manutenção de Versão Paralela
+
+*** Necessidade
+
+ Testar e adaptar todo o código do sistema para todar no IE6.
+
+*** Problema
+
+ Todo dia o build (construção) do sistema tinha alterações e muitas vezes não
+ compilava / rodava porque outro desenvolvedor havia comitado código quebrado.
+
+*** Solução
+
+Manter uma versão paralela do código do Sistema que estava no CVS em uma árvore
+GIT, que permitia atualizar meu código somente no momento em que fosse
+necessário. Permitia reaplicar minhas modificações e manter o código funcionando
+localmente.
+
+
+
+
+* Melhores Práticas em Controles de Versão
+
+** Por que definir boas práticas?
+
+#+LABEL:      fig:babel0
+#+ATTR_LaTeX: :width 8cm  :placement [h!]
+[[./images/torre-de-babel-0.jpg]]
+
+** Por que definir boas práticas?
+
+#+LABEL:      fig:babel1
+#+ATTR_LaTeX: :width 8cm  :placement [h!]
+[[./images/torre-de-babel.jpg]]
+
+
+** Melhores Práticas - Motivação
+
+Não adianta de nada ter uma ferramenta poderosa e utilizar ela de forma
+errada. 
+
+#+LaTeX: \\[0.5cm]
+
+Mesmo usando uma ferramenta de controle de versão, existem as melhores
+práticas na hora de utilizá-la.
+
+#+LaTeX: \\[0.5cm]
+
+Imagine-se procurando um erro em um único commit de vários arquivos onde 9000
+linhas foram modificadas e tudo foi feito de "uma vez"...
+
+** Não adianta uma ferramenta poderosa para a tarefa errada
+
+#+BEGIN_CENTER
+
+#+LABEL:      fig:martelo-thor
+#+ATTR_LaTeX: :width 5cm  :placement [h!]
+[[./images/martelo-thor.jpg]]
+
+#+LABEL:      fig:tabua
+#+ATTR_LaTeX: :width 5cm  :placement [h!]
+[[./images/tabua.jpg]]
+
+#+END_CENTER
+
+** Use a ferramenta certa para a tarefa
+
+#+LABEL:      fig:serrote-madeira
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/serrote-madeira.jpg]]
+
+
+** Melhores Práticas 1
+# http://www.git-tower.com/learn/ebook/command-line/appendix/best-practices
+# sethrobertson.github.io/GitBestPractices/
+
+ * Comite Mudanças Relacionadas entre si
+ * Comite Frequentemente
+ * Não comite trabalho pela metade
+ * Teste Antes de Comitar
+ * Escreva Mensagens de Comit Relevantes e Descritivas
+ * O Controle de Versão não é um sistema de Backup
+ * Use Branches
+ * Concorde em um Fluxo de Trabalho e use-o
+
+
+** Melhores Práticas 2
+
+ * Comite antes e frequentemente
+ * Não entre em pânico
+ * Faça backups
+ * Não modifique o histórico publicado
+ * Escolha um fluxo de trabalho
+ * Divida o seu trabalho em repositórios
+ * Escreva mensagens de commit úteis
+ * Mantenha-se atualizado
+ * Faça manutenção periódica
+ * Reforce o uso de Padrões
+ * Utilize ferramentas úteis
+ * Integre com ferramentas externas
+ * ....
+
+
+
+** Exemplo MP: Envio de Patches para Kernel do Linux
+
+ 1. diff -up
+
+ 2. Describe your changes.
+
+	# + Describe your problem.  Whether your patch is a one-line bug fix or 5000
+	#   lines of a new feature, there must be an underlying problem that motivated
+	#   you to do this work.  Convince the reviewer that there is a problem worth
+	#   fixing and that it makes sense for them to read past the first paragraph.
+
+ 3. Separate your changes.
+
+	# + Separate _logical changes_ into a single patch file.
+
+ 4. Style check your changes.
+
+ 5. Select e-mail destination.
+
+ 6. Select your CC (e-mail carbon copy) list.
+
+ 7. No MIME, no links, no compression, no attachments.  Just plain text.
+
+ 8. E-mail size.
+
+ 9. Name your kernel version.
+
+ 10.  Don't get discouraged.  Re-submit.
+
+ 11.  Include PATCH in the subject
+
+ 12.  Sign your work
+
+ 13. ...
+
+ 14. (ao todo são 812 linhas de texto)
+
+
+#+LaTeX: \footnotesize
+Fonte: http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches
+#+LaTeX: \normalsize
+
+** Envio de Patches para Kernel do Linux
+
+Em resumo:
+
+ + Envie as suas correções usando as regras pré-estabelecidas
+ + Todos ganham com essas regras pré-definidas.
+
+
+
+* Configuração													   :noexport:
+
+** Configuração
+
+#+BEGIN_LaTeX
+\CMD{.git/config} \\
+\begin{itemize}
+        \item configuração do repositório 
+\end{itemize}
+
+\pause{}
+\vspace{.1\textheight}
+\CMD{.git/description} \\
+\begin{itemize}
+        \item descrição do repositório \\
+                \faint{útil para o gitweb}
+\end{itemize}
+
+\pause{}
+\vspace{.1\textheight}
+\CMD{.git/info/exclude} \\
+\begin{itemize}
+        \item arquivos a serem ignorados
+\end{itemize}
+#+END_LaTeX
+
+
+** Configuração
+
+#+BEGIN_LaTeX
+\CMD{\$HOME/.gitconfig}
+
+% \pause{}
+\vspace{.1\textheight}
+
+\CMD{\$ git config {-}-global user.name "Seu Nome"} \\
+\CMD{\$ git config {-}-global user.email voce@seudominio.tld}
+
+\pause{}
+\vspace{.1\textheight}
+
+\CMD{\$ git config {-}-global color.pager true} \\
+\CMD{\$ git config {-}-global color.ui auto}
+
+#+END_LaTeX
+
+** Configuração
+
+#+BEGIN_src :latex
+$ cat .gitconfig
+
+[user]
+        name = Leslie Harlley Watter
+        email = leslie@watter.net
+[merge]
+        tool=kdiff3
+
+[diff "oodiff"]
+        command=git-oodiff
+...
+#+END_src
+
+
+** Configuração
+
+
+#+BEGIN_src :latex
+$ cat .gitconfig
+
+[color]
+    pager = true
+    ui = true
+    branch = auto
+    diff = auto
+    status = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+#+END_src
+
+
+** Configuração
+
+#+BEGIN_src :latex
+$ cat .gitconfig
+[alias]
+    st = status
+    ci = commit
+    br = branch
+    co = checkout
+    df = diff
+    lg = log -p
+    pom = push origin master
+    new = !gitk --all --not ORIG_HEAD
+    tree = log --graph --pretty=oneline
+#+END_src
+
+
+* Revisão de Código 
+
+** Revisão de Código 
+
+Até os melhores erram ...
+
+** Gerrit 
+#+BEGIN_CENTER
+#+LABEL:      fig:gerrit-logo
+#+ATTR_LaTeX: :width 8cm  :placement [h!]
+[[./images/gerrit.png]]
+#+END_CENTER
+
+** Gerrit 
+
+#+CAPTION:    Gerrit - Exemplo
+#+LABEL:      fig:gerrit-example
+#+ATTR_LaTeX: :width 11cm  :placement [h!]
+[[./images/gerrit-eclipse.png]]
+
+** Gerrit 
+
+#+CAPTION:    Gerrit - Review
+#+LABEL:      fig:gerrit-example
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/gerrit-eclipse-review.png]]
+
+
+* Aonde tem / Quem Oferece?
+
+
+** Aonde tem / Quem Oferece?
+
+*** CVS 
+
+  * sourceforge.net
+
+*** SVN 
+
+  * sourceforge
+  * code.google.com
+
+** Hospedagem Git
+ * http://github.com
+ * http://gitoriuous.org
+ * http://repo.or.cz
+ * http://bitbucket.org
+ * e muitos outros ...
+
+** Github
+
+#+CAPTION:    GitHub
+#+LABEL:      fig:github-linus
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/github-linus.png]]
+
+** Gitoriuos
+
+#+CAPTION:    Gitorious
+#+LABEL:      fig:gitorious
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/gitorious.png]]
+
+** Gitoriuos - Log												   :noexport:
+
+#+CAPTION:    Gitorious - Log
+#+LABEL:      fig:gitorious-log
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/gitorious-log.png]]
+
+** BitBucket
+
+#+CAPTION:    Bitbucket 
+#+LABEL:      fig:bitbucket
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/bitbucket.png]]
+
+
+
+* Extras
+
+** Referências e Leituras 
+
+*** Vídeos Educativos sobre Git
+
+  * https://training.github.com/resources/videos/
+
+*** Teste ao vivo com git 
+
+  * http://try.github.io
+
+
+** Referências e Leituras
+ 
+   * ProGit - http://git-scm.com/book
+   * Git Tower - http://www.git-tower.com/learn/ebook/command-line/introduction
+   * Tutorial Magit - http://ergoemacs.org/emacs/emacs_magit-mode_tutorial.html
+   * http://git.or.cz
+   * http://git-scm.com
+   * http://git.or.cz/gitwiki
+   * http://gitready.com
+   * Intro to Git por Bart Jukie -- PDF e Vídeo -
+	 http://excess.org/article/2008/07/ogre-git-tutorial/
+
+
+** Referências e Leituras
+
+*** Melhores práticas
+   * http://sethrobertson.github.io/GitBestPractices/
+   * http://pt.slideshare.net/TarinGamberini/commit-messages-goodpractices
+   * http://www.git-tower.com/learn/ebook/command-line/appendix/best-practices
+   * http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches
+   * http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+
+
+** Referências e Leituras
+
+*** Revisão de Código
+   * Gerrit - https://code.google.com/p/gerrit/
+	 * Gerrit no github - http://gerrithub.io/
+	 * Gerrit no Eclipse - https://git.eclipse.org/r/#/q/status:open,n,z
+	 * Treinamento - http://gerrit-training.scmforge.com/
+
+
+
+* Conclusão
+
+** Coisas para Lembrar
+
+ + *Use o controle de versão sempre que puder*, uma hora ou outra ele vai salvar a
+   sua pele
+ + *Compartilhe informações*, normalmente a informação que você compartilha
+   hoje volta muito mais rica no futuro.
+ + ...
+
+
+
+
+** Até Breve
+
+#+LABEL:      fig:babel-tchau
+#+ATTR_LaTeX: :width 10cm  :placement [h!]
+[[./images/torre-babel-tchau.jpg]]
+
+** Contato
+
+#+BEGIN_CENTER
+Leslie H. Watter
+
+leslie em watter.net / watter no gmail.com
+
+http://github.com/watter
+
+http://www.watter.net
+#+END_CENTER
+
